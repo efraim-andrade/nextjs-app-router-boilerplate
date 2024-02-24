@@ -2,7 +2,7 @@ module.exports = {
   collectCoverage: true,
   collectCoverageFrom: ['src/**/*.ts(x)?'],
 
-  testEnvironments: 'jsdom',
+  testEnvironment: 'jsdom',
   testPathIgnorePatterns: ['/node_modules/', '/.next/'],
 
   modulePaths: ['<rootDir>/src/'],
