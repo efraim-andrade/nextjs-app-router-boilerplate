@@ -23,6 +23,8 @@ jobs:
           cache: 'pnpm'
 
       - name: Install Dependencies
+        env:
+          CI: true
         run: pnpm install --no-frozen-lockfile
 
       - name: Linting
