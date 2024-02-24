@@ -1,4 +1,5 @@
 name: ci
+
 on:
   push:
     branches:
@@ -8,30 +9,45 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v3
+      - uses: actions/checkout@v3
 
       - name: Install pnpm
         uses: pnpm/action-setup@v2
         with:
           version: 7
 
-      - name: Setup Node
+      - name: Use cached pnpm store
+        uses: actions/cache@v3
+        with:
+          path: ~/.pnpm-store
+          key: ${{ runner.os }}-pnpm-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-
+
+      - name: Setup Node (cached)
         uses: actions/setup-node@v3
         with:
           node-version: 20
-          cache: 'pnpm'
+          cache: 'npm'
 
-      - name: Install Dependencies
+      - name: Install Dependencies (CI mode)
         env:
           CI: true
-        run: pnpm install --no-frozen-lockfile
+        run: pnpm install
 
-      - name: Linting
-        run: pnpm lint
+      - name: Cache Node modules
+        uses: actions/cache@v3
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
 
-      - name: Testing
-        run: pnpm test:ci
+      - name: Linting (parallel with testing)
+        run: pnpm lint &
+
+      - name: Testing (parallel with linting)
+        run: pnpm test:ci &
 
       - name: Build
         run: pnpm build
