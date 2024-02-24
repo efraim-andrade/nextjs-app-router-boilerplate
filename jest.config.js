@@ -1,6 +1,6 @@
 module.exports = {
   collectCoverage: true,
-  collectCoverageFrom: ['src/**/*.ts(x)?'],
+  collectCoverageFrom: ['src/**/*.ts(x)?', '!src/**/*.stories.ts(x)?'],
 
   testEnvironment: 'jsdom',
   testPathIgnorePatterns: ['/node_modules/', '/.next/'],
