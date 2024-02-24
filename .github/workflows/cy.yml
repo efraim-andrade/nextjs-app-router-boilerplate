@@ -23,7 +23,7 @@ jobs:
           cache: 'pnpm'
 
       - name: Install Dependencies
-        run: pnpm ci
+        run: pnpm i
 
       - name: Linting
         run: pnpm lint
