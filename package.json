@@ -10,6 +10,7 @@
     "test:ci": "jest --runInBand",
     "test:watch": "jest --watch --maxWorkers=25%",
     "test": "jest --maxWorkers=50% --passWithNoTests",
+    "typecheck": "tsc --project tsconfig.json --noEmit",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
     "generate": "plop --plopfile generators/plopfile.js",
